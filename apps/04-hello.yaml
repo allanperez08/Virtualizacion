@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app4-hello
+  namespace: parcial-ap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      containers:
+      - name: hello
+        image: nginxdemos/hello
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-hello
+  namespace: parcial-ap
+spec:
+  selector:
+    app: hello
+  ports:
+  - port: 80
+    targetPort: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingress-hello
+  namespace: parcial-ap
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`web4.allan.com`)
+    kind: Rule
+    services:
+    - name: svc-hello
+      port: 80
