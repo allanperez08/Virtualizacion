@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-nginx
+  namespace: argocd-aepa
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/allanperez08/Virtualizacion.git'
+    targetRevision: assessment-06
+    path: apps/nginx
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: parcial-aepa
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-apache
+  namespace: argocd-aepa
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/allanperez08/Virtualizacion.git'
+    targetRevision: assessment-06
+    path: apps/apache
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: parcial-aepa
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
