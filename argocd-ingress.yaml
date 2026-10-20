@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-ingress
+  namespace: argocd-aepa
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`argocd.allan.com`)
+      kind: Rule
+      services:
+        - name: argocd-server
+          port: 80
