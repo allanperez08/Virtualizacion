@@ -1,0 +1,29 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-ingress
+  namespace: monitoring-aepa
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`prometheus.allan.com`)
+    kind: Rule
+    services:
+    - name: prometheus-server
+      port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-ingress
+  namespace: monitoring-aepa
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`grafana.allan.com`)
+    kind: Rule
+    services:
+    - name: grafana
+      port: 80
