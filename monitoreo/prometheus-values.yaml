@@ -1,0 +1,11 @@
+alertmanager:
+  enabled: false
+pushgateway:
+  enabled: false
+server:
+  persistentVolume:
+    enabled: false
+kube-state-metrics:
+  enabled: true
+prometheus-node-exporter:
+  enabled: true
