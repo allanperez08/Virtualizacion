@@ -1,0 +1,44 @@
+# Definimos la contraseña por defecto para no tener que buscarla
+adminPassword: admin
+
+# 1. Configuración de Data Sources como código (Provisioning)
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.monitoring-aepa.svc.cluster.local:80
+      access: proxy
+      isDefault: true
+    - name: Loki
+      type: loki
+      url: http://loki-gateway.monitoring-aepa.svc.cluster.local:80
+      access: proxy
+
+# 2. Configuración de Dashboards como código (Provisioning)
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    # Dashboard para métricas del clúster (CPU, Memoria, Pods)
+    k8s-metrics:
+      gnetId: 315
+      revision: 3
+      datasource: Prometheus
+    # Dashboard especializado para Logs de Loki
+    loki-logs:
+      gnetId: 13639
+      revision: 2
+      datasource: Loki
